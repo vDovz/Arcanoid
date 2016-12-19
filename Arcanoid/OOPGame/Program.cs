@@ -17,8 +17,8 @@ namespace OOPGame
             Console.CursorVisible = false;
             Console.Clear();
             CreateMenu();
-
         }
+
         public static void StartGame()
         {
             Console.WindowWidth = 50;
@@ -32,6 +32,7 @@ namespace OOPGame
             GameEngine engine = new SampleGameEngine(graphics);
             engine.Start();
         }
+
         public static void CreateMenu()
         {
             int userinput = Menu.MainMenu();

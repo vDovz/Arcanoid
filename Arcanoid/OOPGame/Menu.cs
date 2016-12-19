@@ -28,6 +28,7 @@ namespace OOPGame
                 default: return -1;
             }
         }
+
         public static void ShowHighscore()
         {
             Console.Clear();
