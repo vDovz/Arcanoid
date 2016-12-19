@@ -49,6 +49,7 @@
     <Compile Include="Block.cs" />
     <Compile Include="FieldBlocks.cs" />
     <Compile Include="IGameObject.cs" />
+    <Compile Include="Menu.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="GameEngine.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

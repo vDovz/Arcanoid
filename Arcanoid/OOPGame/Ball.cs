@@ -90,20 +90,20 @@ namespace OOPGame
             {
                 for (int j = 0; j < 50; j++)
                 {
-                    System.Console.Write("a");
+                    Console.Write("a");
                 }
             }
 
-            System.Console.ForegroundColor = System.ConsoleColor.Black;
-            System.Console.Clear();
+            Console.ForegroundColor = System.ConsoleColor.Black;
+            Console.Clear();
             for (int j = 0; j < 17; j++)
             {
                 System.Console.WriteLine();
             }
-            System.Console.WriteLine("\t\tYou lose");
-            System.Console.WriteLine("\t\tYour score: {0} ", player.GetScore());
-            System.Console.WriteLine("\t\tWrite yo name :");
-            System.Console.Write("\t\t");
+            Console.WriteLine("\t\tYou lose");
+            Console.WriteLine("\t\tYour score: {0} ", player.GetScore());
+            Console.WriteLine("\t\tWrite yo name :");
+            Console.Write("\t\t");
             string[] line = { System.Console.ReadLine() + ";" + player.GetScore() };
             System.IO.File.AppendAllLines("Highscore.txt", line);
             RestartGame();
