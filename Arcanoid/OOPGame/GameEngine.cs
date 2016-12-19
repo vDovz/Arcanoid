@@ -8,9 +8,10 @@ namespace OOPGame
     public abstract class GameEngine
     {
 
-        private ConsoleGraphics graphics;
+        protected ConsoleGraphics graphics;
         private List<IGameObject> objects = new List<IGameObject>();
         private List<IGameObject> tempObjects = new List<IGameObject>();
+
 
         public GameEngine(ConsoleGraphics graphics)
         {
@@ -26,7 +27,6 @@ namespace OOPGame
 
         public void Start()
         {
-
             while (true)
             {
                 // Game Loop
@@ -35,9 +35,9 @@ namespace OOPGame
 
                 objects.AddRange(tempObjects);
                 tempObjects.Clear();
-
+      
                 // clearing screen before painting new frame
-                graphics.FillRectangle(0xFFFFFFFF, 0, 0, graphics.ClientWidth, graphics.ClientHeight);
+                graphics.FillRectangle(0xFFFFFFFF, 0, 0, graphics.ClientWidth, graphics.ClientHeight);    
                 foreach (var obj in objects)
                     obj.Render(graphics);
 
@@ -45,6 +45,11 @@ namespace OOPGame
                 graphics.FlipPages();
                 Thread.Sleep(25);
             }
+        }
+        private static void Menu(ConsoleGraphics graphics)
+        {
+            graphics.FillRectangle(0xFFFFFF00, 50, 50, 90, 20);
+            graphics.DrawString("Start", "Arial", 0xFF000000, 70 , 50);
         }
     }
 }

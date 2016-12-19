@@ -18,6 +18,7 @@ namespace OOPGame
                 }
             }
         }
+
         public List<Block> GetField()
         {
             return field;

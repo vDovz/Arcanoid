@@ -16,6 +16,7 @@ namespace OOPGame
             width = 30;
             height = 15;
         }
+
         public void Render(ConsoleGraphics graphics)
         {
             graphics.FillRectangle(0xFFFF0000, x, y, width, height);

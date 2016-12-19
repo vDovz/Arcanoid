@@ -12,10 +12,12 @@ namespace OOPGame
         {
             score += 10;
         }
+
         public int GetScore()
         {
             return score; 
         }
+
         public Player(ConsoleGraphics graphics)
         {
             x = 50;

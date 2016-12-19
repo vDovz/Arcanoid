@@ -1,10 +1,11 @@
 ﻿using NConsoleGraphics;
+using System;
+using System.Threading;
 
 namespace OOPGame
 {
     internal class Ball : Rectangle, IGameObject
     {
-
         private int speedX;
         private int speedY;
         public FieldBlocks field { get; set; }
@@ -28,11 +29,11 @@ namespace OOPGame
         public void Update(GameEngine engine)
         {
 
-            GetSpeed(player);
-            GetSpeed(graphic);
+            NewSpeed(player);
+            NewSpeed(graphic);
             for (int i = 0; i < field.GetField().Count; i++)
             {
-                GetSpeed(field.GetField()[i]);
+                NewSpeed(field.GetField()[i]);
                 if (IsCollision(field.GetField()[i]))
                 {
                     player.AddScore();
@@ -44,18 +45,23 @@ namespace OOPGame
             x += speedX;
             if (y == 0)
             {
-                //GameOver
-
+                Lose();
+            }
+            if (field.GetField().Count == 0)
+            {
+                Win();
             }
         }
-        private void GetSpeed(Rectangle rect)
+
+        private void NewSpeed(Rectangle rect)
         {
             if (IsCollision(rect))
             {
                 speedY = -1 * speedY;
             }
         }
-        private void GetSpeed(ConsoleGraphics graphics)
+
+        private void NewSpeed(ConsoleGraphics graphics)
         {
             if (x >= graphics.ClientWidth - 25 || x <= 5)
             {
@@ -66,6 +72,7 @@ namespace OOPGame
                 speedY = -1 * speedY;
             }
         }
+
         private void BoostSpeed()
         {
             if (player.GetScore() % 100 == 0)
@@ -74,6 +81,72 @@ namespace OOPGame
                 else { speedX -= 3; }
                 if (speedY > 0) { speedY += 3; }
                 else { speedY -= 3; }
+            }
+        }
+
+        private void Lose()
+        {
+            for (int i = 0; i < 40; i++)
+            {
+                for (int j = 0; j < 50; j++)
+                {
+                    System.Console.Write("a");
+                }
+            }
+
+            System.Console.ForegroundColor = System.ConsoleColor.Black;
+            System.Console.Clear();
+            for (int j = 0; j < 17; j++)
+            {
+                System.Console.WriteLine();
+            }
+            System.Console.WriteLine("\t\tYou lose");
+            System.Console.WriteLine("\t\tYour score: {0} ", player.GetScore());
+            System.Console.WriteLine("\t\tWrite yo name :");
+            System.Console.Write("\t\t");
+            string[] line = { System.Console.ReadLine() + ";" + player.GetScore() };
+            System.IO.File.AppendAllLines("Highscore.txt", line);
+            RestartGame();
+        }
+
+        private void Win()
+        {
+            for (int i = 0; i < 40; i++)
+            {
+                for (int j = 0; j < 50; j++)
+                {
+                    System.Console.Write("a");
+                }
+            }
+            System.Console.Clear();
+            for (int j = 0; j < 17; j++)
+            {
+                System.Console.WriteLine();
+            }
+            System.Console.ForegroundColor = System.ConsoleColor.Black;
+            System.Console.WriteLine("\t\tYou win");
+            System.Console.WriteLine("\t\tYou score: {0} ", player.GetScore());
+            System.Console.WriteLine("\t\tWrite yo name :");
+            Console.Write("\t\t");
+            string[] line = { System.Console.ReadLine() + ";" + player.GetScore() };
+            System.IO.File.AppendAllLines("Highscore.txt", line);
+            RestartGame();
+        }
+        private void RestartGame()
+        {
+            System.Console.WriteLine("\t\tYou want restart game ? (y/n) :");
+            switch (Console.ReadLine())
+            {
+                case "y":
+                    Program.StartGame();
+                    break;
+                case "n":
+                    Environment.Exit(0);
+                    break;
+                default:
+                    Console.WriteLine("\t\t Not correct Answer. try again");
+                    RestartGame();
+                    break;
             }
         }
     }
