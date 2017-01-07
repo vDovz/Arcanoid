@@ -24,7 +24,7 @@ namespace OOPGame
 
         public void Update(GameEngine engine)
         {
-            engine.AddObject(this);
+           
         }
     }
 }

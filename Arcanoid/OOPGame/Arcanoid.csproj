@@ -47,6 +47,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Block.cs" />
+    <Compile Include="Button.cs" />
     <Compile Include="FieldBlocks.cs" />
     <Compile Include="IGameObject.cs" />
     <Compile Include="Menu.cs" />

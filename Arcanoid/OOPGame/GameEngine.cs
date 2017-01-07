@@ -27,6 +27,7 @@ namespace OOPGame
 
         public void Start()
         {
+
             while (true)
             {
                 // Game Loop
@@ -45,11 +46,6 @@ namespace OOPGame
                 graphics.FlipPages();
                 Thread.Sleep(25);
             }
-        }
-        private static void Menu(ConsoleGraphics graphics)
-        {
-            graphics.FillRectangle(0xFFFFFF00, 50, 50, 90, 20);
-            graphics.DrawString("Start", "Arial", 0xFF000000, 70 , 50);
         }
     }
 }

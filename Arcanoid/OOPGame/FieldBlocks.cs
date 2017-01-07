@@ -3,27 +3,28 @@ using NConsoleGraphics;
 
 namespace OOPGame
 {
-    
-    class FieldBlocks :Rectangle, IGameObject
-    {
-        private List<Block> field = new List<Block>();
 
-        public FieldBlocks(int Line,int Column, int  startX, int startY)
+    class FieldBlocks : Rectangle, IGameObject
+    {
+        public List<Block> field { get; set; }
+
+        public FieldBlocks(int Line, int Column, int startX, int startY)
         {
-           for (int i = 0; i < Line ; i++)
+            field = new List<Block>();
+            InitField(Line, Column, startX , startY);       
+        }
+        
+        private void InitField(int Line ,int  Column, int startX, int startY)
+        {
+            for (int i = 0; i < Line; i++)
             {
                 for (int j = 0; j < Column; j++)
                 {
-                    field.Add(new Block(startX + j * 50, startY+ i*50));
+                    field.Add(new Block(startX + j * 50, startY + i * 50));
                 }
             }
         }
 
-        public List<Block> GetField()
-        {
-            return field;
-        }
-        
         public void Render(ConsoleGraphics graphics)
         {
             foreach (var item in field)
@@ -34,7 +35,10 @@ namespace OOPGame
 
         public void Update(GameEngine engine)
         {
-          
+            foreach (var item in field)
+            {
+                item.Update(engine);
+            }
         }
     }
 }

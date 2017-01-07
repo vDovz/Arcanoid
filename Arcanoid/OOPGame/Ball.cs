@@ -8,7 +8,7 @@ namespace OOPGame
     {
         private int speedX;
         private int speedY;
-        public FieldBlocks field { get; set; }
+        public FieldBlocks field;
         public Player player { get; set; }
 
         public Ball(int x1, int y1, int speedX, int speedY)
@@ -28,34 +28,32 @@ namespace OOPGame
 
         public void Update(GameEngine engine)
         {
-
             NewSpeed(player);
             NewSpeed(graphic);
-            for (int i = 0; i < field.GetField().Count; i++)
+            for (int i = 0; i < field.field.Count; i++)
             {
-                NewSpeed(field.GetField()[i]);
-                if (IsCollision(field.GetField()[i]))
+                if (IsCollision(field.field[i]))
                 {
-                    player.AddScore();
-                    field.GetField().RemoveAt(i);
-                    BoostSpeed();
+                    NewSpeed(field.field[i]);
+                    break;
                 }
             }
             y += speedY;
             x += speedX;
-            if (y == 0)
-            {
-                Lose();
-            }
-            if (field.GetField().Count == 0)
-            {
-                Win();
-            }
+            CheckGameOver();
         }
 
-        private void NewSpeed(Rectangle rect)
+        private void NewSpeed(Block block)
         {
-            if (IsCollision(rect))
+            player.AddScore();
+            field.field.Remove(block);
+            BoostSpeed();
+            speedY = -1 * speedY;
+        }
+
+        private void NewSpeed(Player player)
+        {
+            if (IsCollision(player))
             {
                 speedY = -1 * speedY;
             }
@@ -84,24 +82,49 @@ namespace OOPGame
             }
         }
 
+        private void CheckGameOver()
+        {
+            if (y == 0)
+            {
+                Lose();
+            }
+            if (field.field.Count == 0)
+            {
+                Win();
+            }
+        }
+
         private void Lose()
         {
-            for (int i = 0; i < 40; i++)
-            {
-                for (int j = 0; j < 50; j++)
-                {
-                    Console.Write("a");
-                }
-            }
-
-            Console.ForegroundColor = System.ConsoleColor.Black;
+            graphic.FillRectangle(0xFFFFFFFF, 0, 0, graphic.ClientWidth, graphic.ClientHeight);
+            graphic.FlipPages();
+            Console.ForegroundColor = ConsoleColor.Black;
             Console.Clear();
             for (int j = 0; j < 17; j++)
             {
-                System.Console.WriteLine();
+                Console.WriteLine();
             }
             Console.WriteLine("\t\tYou lose");
             Console.WriteLine("\t\tYour score: {0} ", player.GetScore());
+            Console.WriteLine("\t\tWrite yo name :");
+            Console.Write("\t\t");
+            string[] line = { Console.ReadLine() + ";" + player.GetScore() };
+            System.IO.File.AppendAllLines("Highscore.txt", line);
+            RestartGame();
+        }
+
+        private void Win()
+        {
+            graphic.FillRectangle(0xFFFFFFFF, 0, 0, graphic.ClientWidth, graphic.ClientHeight);
+            graphic.FlipPages();
+            Console.Clear();
+            for (int j = 0; j < 17; j++)
+            {
+                Console.WriteLine();
+            }
+            Console.ForegroundColor = System.ConsoleColor.Black;
+            Console.WriteLine("\t\tYou win");
+            Console.WriteLine("\t\tYou score: {0} ", player.GetScore());
             Console.WriteLine("\t\tWrite yo name :");
             Console.Write("\t\t");
             string[] line = { System.Console.ReadLine() + ";" + player.GetScore() };
@@ -109,36 +132,14 @@ namespace OOPGame
             RestartGame();
         }
 
-        private void Win()
-        {
-            for (int i = 0; i < 40; i++)
-            {
-                for (int j = 0; j < 50; j++)
-                {
-                    System.Console.Write("a");
-                }
-            }
-            System.Console.Clear();
-            for (int j = 0; j < 17; j++)
-            {
-                System.Console.WriteLine();
-            }
-            System.Console.ForegroundColor = System.ConsoleColor.Black;
-            System.Console.WriteLine("\t\tYou win");
-            System.Console.WriteLine("\t\tYou score: {0} ", player.GetScore());
-            System.Console.WriteLine("\t\tWrite yo name :");
-            Console.Write("\t\t");
-            string[] line = { System.Console.ReadLine() + ";" + player.GetScore() };
-            System.IO.File.AppendAllLines("Highscore.txt", line);
-            RestartGame();
-        }
         private void RestartGame()
         {
-            System.Console.WriteLine("\t\tYou want restart game ? (y/n) :");
+            Console.WriteLine("\t\tYou want restart game ? (y/n) :");
+            Console.Write("\t\t");
             switch (Console.ReadLine())
             {
                 case "y":
-                    Program.StartGame();
+                    Menu.StartGame(new ConsoleGraphics());
                     break;
                 case "n":
                     Environment.Exit(0);

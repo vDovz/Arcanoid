@@ -1,53 +1,77 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using NConsoleGraphics;
+using System;
 
 namespace OOPGame
 {
     class Menu
     {
-        public static int MainMenu()
+        public static void MainMenu(ConsoleGraphics graphics)
         {
-            Console.Clear();
-            for (int i = 0; i < 15; i++)
+            graphics.FillRectangle(0xFFFFFFFF, 0, 0, graphics.ClientWidth, graphics.ClientHeight);
+            Button Start = new Button("Start Game", 130, 150, 120, 20, 0xFFFFFF00, graphics);
+            Button Score = new Button("High Score", 130, 200, 120, 20, 0xFFFFFF00, graphics);
+            Button Exit = new Button("Exit", 130, 250, 120, 20, 0xFFFFFF00, graphics);
+            Start.AddToBoard(graphics);
+            Score.AddToBoard(graphics);
+            Exit.AddToBoard(graphics);
+            graphics.FlipPages();
+            bool isSelected = false;
+            while (!isSelected)
             {
-                Console.WriteLine();
-            }
-            Console.WriteLine("\t\t   1. Start Game ");
-            Console.WriteLine();
-            Console.WriteLine("\t\t   2. HighScore");
-            Console.WriteLine();
-            Console.WriteLine("\t\t   3. Exit ");
-            switch (Console.ReadLine())
-            {
-                case "1": return 1;
-                case "2": return 2;
-                case "3": return 3;
-                default: return -1;
+                if (Input.IsMouseLeftButtonDown)
+                {
+                    if (Start.IsCollision(Input.MouseX, Input.MouseY))
+                    {
+                        StartGame(new ConsoleGraphics());
+                        isSelected = true;
+                    }
+                    if (Score.IsCollision(Input.MouseX, Input.MouseY))
+                    {
+                        ShowHighscore(graphics);
+                        isSelected = true;
+                    }
+                    if (Exit.IsCollision(Input.MouseX, Input.MouseY))
+                    {
+                        Environment.Exit(0);
+                        isSelected = true;
+                    }
+                }
             }
         }
 
-        public static void ShowHighscore()
+        public static void ShowHighscore(ConsoleGraphics graphics)
         {
-            Console.Clear();
-            String[] lines = System.IO.File.ReadAllLines("Highscore.txt");
-            Console.WriteLine("\tName \t Score");
+            graphics.FillRectangle(0xFFFFFFFF, 0, 0, graphics.ClientWidth, graphics.ClientHeight);
+            Button Back = new Button("Back", 0, 0, 120, 20, 0xFFFF00FF, graphics);
+            Back.AddToBoard(graphics);
+
+            graphics.DrawString("Name", "Arial", 0xFFFF00FF, 15, 20);
+            graphics.DrawString("Score", "Arial", 0xFFFF00FF, 120, 20);
+            string[] lines = System.IO.File.ReadAllLines("Highscore.txt");
             for (int i = 0; i < lines.Length; i++)
             {
-                string[] result =lines[i].Split(';');
-                Console.WriteLine("\t{0} \t {1}", result[0], result[1]);
+                string[] result = lines[i].Split(';');
+                graphics.DrawString(result[0], "Arial", 0xFFFF00FF, 15, 20 * (i+2));
+                graphics.DrawString(result[1], "Arial", 0xFFFF00FF, 120, 20 * (i + 2));
             }
-            Console.WriteLine("1.Back to Main Menu ");
-            switch (Console.ReadLine())
+            graphics.FlipPages();
+            bool isSelected = false;
+            while (!isSelected)
             {
-                case "1": Program.CreateMenu();
-                    break;
-                default:
-                    Environment.Exit(0);
-                    break;
+                if (Input.IsMouseLeftButtonDown)
+                {
+                    if (Back.IsCollision(Input.MouseX, Input.MouseY))
+                    {
+                        MainMenu(graphics);
+                    }
+                }
             }
+        }
+        public static void StartGame(ConsoleGraphics graphics)
+        {
+            Console.Clear();
+            GameEngine engine = new SampleGameEngine(graphics);
+            engine.Start();
         }
 
     }
