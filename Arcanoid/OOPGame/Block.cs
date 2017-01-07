@@ -7,11 +7,11 @@ using NConsoleGraphics;
 
 namespace OOPGame
 {
-    class Block :Rectangle, IGameObject
-    {  
+    class Block : Rectangle, IGameObject
+    {
         public Block(int x1, int y1)
         {
-            x = x1 ;
+            x = x1;
             y = y1;
             width = 30;
             height = 15;
@@ -24,7 +24,7 @@ namespace OOPGame
 
         public void Update(GameEngine engine)
         {
-           
+
         }
     }
 }

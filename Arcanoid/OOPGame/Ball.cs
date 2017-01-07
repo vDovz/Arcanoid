@@ -1,6 +1,5 @@
 ﻿using NConsoleGraphics;
 using System;
-using System.Threading;
 
 namespace OOPGame
 {

@@ -11,10 +11,10 @@ namespace OOPGame
         public FieldBlocks(int Line, int Column, int startX, int startY)
         {
             field = new List<Block>();
-            InitField(Line, Column, startX , startY);       
+            InitField(Line, Column, startX, startY);
         }
-        
-        private void InitField(int Line ,int  Column, int startX, int startY)
+
+        private void InitField(int Line, int Column, int startX, int startY)
         {
             for (int i = 0; i < Line; i++)
             {

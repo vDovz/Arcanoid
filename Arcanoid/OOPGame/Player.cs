@@ -15,7 +15,7 @@ namespace OOPGame
 
         public int GetScore()
         {
-            return score; 
+            return score;
         }
 
         public Player(ConsoleGraphics graphics)
@@ -24,12 +24,12 @@ namespace OOPGame
             y = 25;
             width = 60;
             height = 15;
-            graphics.DrawRectangle(0xFFFF0000, x, y , 30 , 8);
+            graphics.DrawRectangle(0xFFFF0000, x, y, 30, 8);
         }
 
         public void Render(ConsoleGraphics graphics)
         {
-            graphics.DrawRectangle(0xFFFF0000, x, y, width, height, (float) 3);
+            graphics.DrawRectangle(0xFFFF0000, x, y, width, height, (float)3);
         }
 
         public void Update(GameEngine engine)
@@ -39,9 +39,9 @@ namespace OOPGame
                 if (x - speed >= 0)
                     x -= speed;
             }
-             if (Input.IsKeyDown(Keys.RIGHT))
+            if (Input.IsKeyDown(Keys.RIGHT))
             {
-                if (x + speed < graphic.ClientWidth-50)
+                if (x + speed < graphic.ClientWidth - 50)
                     x += speed;
             }
         }

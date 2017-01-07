@@ -1,6 +1,5 @@
 ﻿using NConsoleGraphics;
 using System;
-
 namespace OOPGame
 {
     class Menu
@@ -15,25 +14,24 @@ namespace OOPGame
             Score.AddToBoard(graphics);
             Exit.AddToBoard(graphics);
             graphics.FlipPages();
-            bool isSelected = false;
-            while (!isSelected)
+            while (true)
             {
                 if (Input.IsMouseLeftButtonDown)
                 {
                     if (Start.IsCollision(Input.MouseX, Input.MouseY))
                     {
                         StartGame(new ConsoleGraphics());
-                        isSelected = true;
+                        break;
                     }
                     if (Score.IsCollision(Input.MouseX, Input.MouseY))
                     {
                         ShowHighscore(graphics);
-                        isSelected = true;
+                        break;
                     }
                     if (Exit.IsCollision(Input.MouseX, Input.MouseY))
                     {
                         Environment.Exit(0);
-                        isSelected = true;
+                        break;
                     }
                 }
             }
@@ -44,35 +42,34 @@ namespace OOPGame
             graphics.FillRectangle(0xFFFFFFFF, 0, 0, graphics.ClientWidth, graphics.ClientHeight);
             Button Back = new Button("Back", 0, 0, 120, 20, 0xFFFF00FF, graphics);
             Back.AddToBoard(graphics);
-
             graphics.DrawString("Name", "Arial", 0xFFFF00FF, 15, 20);
             graphics.DrawString("Score", "Arial", 0xFFFF00FF, 120, 20);
             string[] lines = System.IO.File.ReadAllLines("Highscore.txt");
             for (int i = 0; i < lines.Length; i++)
             {
                 string[] result = lines[i].Split(';');
-                graphics.DrawString(result[0], "Arial", 0xFFFF00FF, 15, 20 * (i+2));
+                graphics.DrawString(result[0], "Arial", 0xFFFF00FF, 15, 20 * (i + 2));
                 graphics.DrawString(result[1], "Arial", 0xFFFF00FF, 120, 20 * (i + 2));
             }
             graphics.FlipPages();
-            bool isSelected = false;
-            while (!isSelected)
+            while (true)
             {
                 if (Input.IsMouseLeftButtonDown)
                 {
                     if (Back.IsCollision(Input.MouseX, Input.MouseY))
                     {
                         MainMenu(graphics);
+                        break;
                     }
                 }
             }
         }
+
         public static void StartGame(ConsoleGraphics graphics)
         {
             Console.Clear();
             GameEngine engine = new SampleGameEngine(graphics);
             engine.Start();
         }
-
     }
 }
