@@ -4,34 +4,39 @@ namespace OOPGame
 {
     class Menu
     {
+        static bool updateMenu = true;
         public static void MainMenu(ConsoleGraphics graphics)
         {
-            graphics.FillRectangle(0xFFFFFFFF, 0, 0, graphics.ClientWidth, graphics.ClientHeight);
-            Button Start = new Button("Start Game", 130, 150, 120, 20, 0xFFFFFF00, graphics);
-            Button Score = new Button("High Score", 130, 200, 120, 20, 0xFFFFFF00, graphics);
-            Button Exit = new Button("Exit", 130, 250, 120, 20, 0xFFFFFF00, graphics);
-            Start.AddToBoard(graphics);
-            Score.AddToBoard(graphics);
-            Exit.AddToBoard(graphics);
-            graphics.FlipPages();
-            while (true)
+            while (updateMenu)
             {
-                if (Input.IsMouseLeftButtonDown)
+                graphics.FillRectangle(0xFFFFFFFF, 0, 0, graphics.ClientWidth, graphics.ClientHeight);
+                Button Start = new Button("Start Game", 130, 150, 120, 20, 0xFFFFFF00, graphics);
+                Button Score = new Button("High Score", 130, 200, 120, 20, 0xFFFFFF00, graphics);
+                Button Exit = new Button("Exit", 130, 250, 120, 20, 0xFFFFFF00, graphics);
+                Start.AddToBoard(graphics);
+                Score.AddToBoard(graphics);
+                Exit.AddToBoard(graphics);
+                graphics.FlipPages();
+                while (true)
                 {
-                    if (Start.IsCollision(Input.MouseX, Input.MouseY))
+                    if (Input.IsMouseLeftButtonDown)
                     {
-                        StartGame(new ConsoleGraphics());
-                        break;
-                    }
-                    if (Score.IsCollision(Input.MouseX, Input.MouseY))
-                    {
-                        ShowHighscore(graphics);
-                        break;
-                    }
-                    if (Exit.IsCollision(Input.MouseX, Input.MouseY))
-                    {
-                        Environment.Exit(0);
-                        break;
+                        if (Start.IsCollision(Input.MouseX, Input.MouseY))
+                        {
+                            StartGame(new ConsoleGraphics());
+                            updateMenu = false;
+                            break;
+                        }
+                        if (Score.IsCollision(Input.MouseX, Input.MouseY))
+                        {
+                            ShowHighscore(graphics);
+                            break;
+                        }
+                        if (Exit.IsCollision(Input.MouseX, Input.MouseY))
+                        {
+                            Environment.Exit(0);
+                            break;
+                        }
                     }
                 }
             }
@@ -58,7 +63,7 @@ namespace OOPGame
                 {
                     if (Back.IsCollision(Input.MouseX, Input.MouseY))
                     {
-                        MainMenu(graphics);
+                        return;
                         break;
                     }
                 }
